@@ -65,7 +65,17 @@ def register_customer(payload: UserRegisterRequest, db: Session = Depends(get_db
         user_id=new_user.id,
         email=new_user.email,
         full_name=f"{new_user.first_name} {new_user.last_name}",
-        customer_id=new_customer.id
+        customer_id=new_customer.id,
+        user=UserResponse(
+            id=new_user.id,
+            email=new_user.email,
+            first_name=new_user.first_name,
+            last_name=new_user.last_name,
+            role=new_user.role,
+            is_active=new_user.is_active,
+            created_at=new_user.created_at,
+            customer_id=new_customer.id
+        )
     )
 
 @router.post("/login", response_model=TokenResponse)
@@ -93,7 +103,17 @@ def login(payload: LoginRequest, db: Session = Depends(get_db)):
         user_id=user.id,
         email=user.email,
         full_name=f"{user.first_name} {user.last_name}",
-        customer_id=cust_id
+        customer_id=cust_id,
+        user=UserResponse(
+            id=user.id,
+            email=user.email,
+            first_name=user.first_name,
+            last_name=user.last_name,
+            role=user.role,
+            is_active=user.is_active,
+            created_at=user.created_at,
+            customer_id=cust_id
+        )
     )
 
 @router.post("/forgot-password")

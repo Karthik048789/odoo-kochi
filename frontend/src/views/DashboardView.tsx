@@ -117,87 +117,173 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNotify, onNaviga
         </div>
       </div>
 
+      {/* Interactive Lifecycle Architecture Pipeline */}
+      <div className="p-5 rounded-3xl glass-card border border-slate-200 dark:border-slate-800 space-y-3 relative overflow-hidden">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <span className="flex h-2 w-2 rounded-full bg-indigo-500 animate-pulse"></span>
+            <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+              Autonomous Lifecycle Pipeline
+            </span>
+          </div>
+          <span className="text-[11px] text-slate-500 dark:text-slate-400">
+            Click any phase to inspect live ledger
+          </span>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 pt-1">
+          {/* Step 1: Catalog */}
+          <button
+            onClick={() => onNavigateTab('products')}
+            className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/50 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 border border-slate-200/60 dark:border-slate-700/60 text-left transition-all group"
+          >
+            <div className="flex items-center justify-between text-[10px] text-slate-400 font-bold mb-1">
+              <span>01. CATALOG</span>
+              <span className="text-indigo-500 group-hover:translate-x-0.5 transition-transform">→</span>
+            </div>
+            <div className="text-xs font-bold text-slate-900 dark:text-white">Products & Plans</div>
+            <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Multi-variant pricing</div>
+          </button>
+
+          {/* Step 2: Quotations */}
+          <button
+            onClick={() => onNavigateTab('quotations')}
+            className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/50 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 border border-slate-200/60 dark:border-slate-700/60 text-left transition-all group"
+          >
+            <div className="flex items-center justify-between text-[10px] text-slate-400 font-bold mb-1">
+              <span>02. NEGOTIATION</span>
+              <span className="text-indigo-500 group-hover:translate-x-0.5 transition-transform">→</span>
+            </div>
+            <div className="text-xs font-bold text-slate-900 dark:text-white">Quotes & Coupons</div>
+            <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Discounts & taxes</div>
+          </button>
+
+          {/* Step 3: Subscriptions */}
+          <button
+            onClick={() => onNavigateTab('subscriptions')}
+            className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/50 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 border border-slate-200/60 dark:border-slate-700/60 text-left transition-all group"
+          >
+            <div className="flex items-center justify-between text-[10px] text-slate-400 font-bold mb-1">
+              <span>03. LIFECYCLE</span>
+              <span className="text-indigo-500 group-hover:translate-x-0.5 transition-transform">→</span>
+            </div>
+            <div className="text-xs font-bold text-slate-900 dark:text-white">Active Contracts</div>
+            <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Pause / Resume / Renew</div>
+          </button>
+
+          {/* Step 4: Billing & PDF */}
+          <button
+            onClick={() => onNavigateTab('invoices')}
+            className="p-3 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 border border-indigo-200 dark:border-indigo-800 text-left transition-all group"
+          >
+            <div className="flex items-center justify-between text-[10px] text-indigo-600 dark:text-indigo-400 font-bold mb-1">
+              <span>04. BILLING & PDF</span>
+              <span className="text-indigo-600 group-hover:translate-x-0.5 transition-transform">→</span>
+            </div>
+            <div className="text-xs font-bold text-indigo-900 dark:text-indigo-200">Tax Invoices (PDF)</div>
+            <div className="text-[10px] text-indigo-600 dark:text-indigo-400 mt-0.5">Inline Preview & Download</div>
+          </button>
+
+          {/* Step 5: Payments */}
+          <button
+            onClick={() => onNavigateTab('payments')}
+            className="p-3 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 border border-emerald-200 dark:border-emerald-800 text-left transition-all group"
+          >
+            <div className="flex items-center justify-between text-[10px] text-emerald-600 dark:text-emerald-400 font-bold mb-1">
+              <span>05. SETTLEMENT</span>
+              <span className="text-emerald-600 group-hover:translate-x-0.5 transition-transform">→</span>
+            </div>
+            <div className="text-xs font-bold text-emerald-900 dark:text-emerald-200">Cash Reconciled</div>
+            <div className="text-[10px] text-emerald-600 dark:text-emerald-400 mt-0.5">Bank Reference & Audit</div>
+          </button>
+        </div>
+      </div>
+
       {/* Primary KPI Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {/* MRR */}
-        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
+        <div className="glass-card p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 relative overflow-hidden group">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-cyan-400" />
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
               Monthly Recurring (MRR)
             </span>
-            <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
+            <div className="p-2.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 shadow-sm">
               <TrendingUp className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-slate-900 dark:text-white">
+          <div className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 dark:text-white tracking-tight">
             {formatCurrency(summary?.mrr)}
           </div>
           <div className="text-xs text-slate-500 dark:text-slate-400 mt-2 flex items-center justify-between">
-            <span>Annualized (ARR):</span>
-            <span className="font-semibold text-indigo-600 dark:text-indigo-400">
+            <span>Annualized Run-Rate (ARR):</span>
+            <span className="font-bold font-mono text-indigo-600 dark:text-indigo-400">
               {formatCurrency(summary?.arr)}
             </span>
           </div>
         </div>
 
         {/* Cash Collected vs Billed */}
-        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
+        <div className="glass-card p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 relative overflow-hidden group">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-400" />
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
               Cash Reconciled
             </span>
-            <div className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">
+            <div className="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 shadow-sm">
               <CheckCircle className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+          <div className="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-600 dark:text-emerald-400 tracking-tight">
             {formatCurrency(summary?.cash_collected)}
           </div>
           <div className="text-xs text-slate-500 dark:text-slate-400 mt-2 flex items-center justify-between">
-            <span>Gross Invoiced:</span>
-            <span className="font-semibold text-slate-700 dark:text-slate-300">
+            <span>Total Billed:</span>
+            <span className="font-bold font-mono text-slate-700 dark:text-slate-300">
               {formatCurrency(summary?.billed_revenue)}
             </span>
           </div>
         </div>
 
         {/* Outstanding Receivables */}
-        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
+        <div className="glass-card p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 relative overflow-hidden group">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-rose-400" />
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
               Outstanding Balance
             </span>
-            <div className="p-2 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400">
+            <div className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 shadow-sm">
               <Clock className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-amber-600 dark:text-amber-400">
+          <div className="text-2xl sm:text-3xl font-extrabold font-mono text-amber-600 dark:text-amber-400 tracking-tight">
             {formatCurrency(summary?.outstanding_balance)}
           </div>
           <div className="text-xs text-slate-500 dark:text-slate-400 mt-2 flex items-center justify-between">
-            <span>Overdue Risk:</span>
-            <span className="font-bold text-rose-600 dark:text-rose-400">
+            <span>Overdue Amount:</span>
+            <span className="font-bold font-mono text-rose-600 dark:text-rose-400">
               {formatCurrency(summary?.overdue_amount)}
             </span>
           </div>
         </div>
 
         {/* Active Subscriptions */}
-        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
+        <div className="glass-card p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 relative overflow-hidden group">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 to-indigo-500" />
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
               Active Contracts
             </span>
-            <div className="p-2 rounded-xl bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400">
+            <div className="p-2.5 rounded-xl bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400 shadow-sm">
               <Users className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-bold text-slate-900 dark:text-white">
+          <div className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 dark:text-white tracking-tight">
             {summary?.active_subscriptions || 0}
           </div>
           <div className="text-xs text-slate-500 dark:text-slate-400 mt-2 flex items-center justify-between">
-            <span>Registered Customers:</span>
-            <span className="font-semibold text-cyan-600 dark:text-cyan-400">
+            <span>Client Enterprises:</span>
+            <span className="font-bold font-mono text-cyan-600 dark:text-cyan-400">
               {summary?.total_customers || 0}
             </span>
           </div>

@@ -15,6 +15,8 @@ import { StaffView } from './views/StaffView';
 import { CustomersDirectoryView } from './views/CustomersDirectoryView';
 import { CustomerPortalView } from './views/CustomerPortalView';
 import { LoginModal } from './views/LoginModal';
+import { TelemetryBar } from './components/TelemetryBar';
+import { LandingHeroView } from './views/LandingHeroView';
 import { CheckCircle2, AlertCircle, X, Zap } from 'lucide-react';
 
 export function App() {
@@ -98,7 +100,32 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200 relative overflow-x-hidden">
+      {/* Ambient Aurora Glow Background Orbs */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute -top-32 -left-32 w-96 h-96 bg-indigo-500/10 dark:bg-indigo-600/15 rounded-full blur-3xl animate-float-slow" />
+        <div className="absolute top-1/2 -right-32 w-96 h-96 bg-cyan-400/10 dark:bg-cyan-500/10 rounded-full blur-3xl animate-float-slow" style={{ animationDelay: '-6s' }} />
+        <div className="absolute -bottom-32 left-1/3 w-96 h-96 bg-purple-500/10 dark:bg-purple-600/10 rounded-full blur-3xl animate-float-slow" style={{ animationDelay: '-12s' }} />
+      </div>
+
+      {/* Top Telemetry / Executive Ticker */}
+      <TelemetryBar
+        user={user}
+        onPersonaSwitch={(_token, u) => {
+          if (u && u.role) {
+            setUser(u);
+            if (u.role === 'CUSTOMER') {
+              setCurrentTab('my_subscriptions');
+            } else {
+              setCurrentTab('dashboard');
+            }
+          } else {
+            checkSession();
+          }
+        }}
+        onNotify={notify}
+      />
+
       {/* Top Navbar */}
       <Navbar
         user={user}
@@ -108,7 +135,7 @@ export function App() {
         onLogout={handleLogout}
       />
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden relative z-10">
         {user ? (
           <>
             {/* Role-based Sidebar */}
@@ -119,7 +146,7 @@ export function App() {
             />
 
             {/* Main Content Area */}
-            <main className="flex-1 overflow-y-auto px-6 py-6 max-w-7xl mx-auto w-full">
+            <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 max-w-7xl mx-auto w-full">
               {/* Customer Portal Views */}
               {user.role === 'CUSTOMER' && (
                 <CustomerPortalView currentTab={currentTab} onNotify={notify} />
@@ -172,29 +199,23 @@ export function App() {
             </main>
           </>
         ) : (
-          <main className="flex-1 flex items-center justify-center p-6">
-            <div className="max-w-xl w-full text-center space-y-6 p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-indigo-600 to-cyan-500 text-white flex items-center justify-center mx-auto shadow-lg shadow-indigo-500/25">
-                <Zap className="w-8 h-8" />
-              </div>
-              <div className="space-y-2">
-                <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                  Welcome to SUBER
-                </h1>
-                <p className="text-sm text-slate-500 dark:text-slate-400">
-                  Business Subscription Management System. Real-time multi-tier recurring billing, automated tax invoicing, and dynamic customer lifecycle management.
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-                <button
-                  onClick={() => setIsLoginModalOpen(true)}
-                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs shadow-md shadow-indigo-600/25 transition-all"
-                >
-                  Sign In to Enterprise Workspace
-                </button>
-              </div>
-            </div>
+          <main className="flex-1 overflow-y-auto flex items-center justify-center p-4">
+            <LandingHeroView
+              onLoginSuccess={(_token, u) => {
+                if (u && u.role) {
+                  setUser(u);
+                  if (u.role === 'CUSTOMER') {
+                    setCurrentTab('my_subscriptions');
+                  } else {
+                    setCurrentTab('dashboard');
+                  }
+                } else {
+                  checkSession();
+                }
+              }}
+              onOpenLoginModal={() => setIsLoginModalOpen(true)}
+              onNotify={notify}
+            />
           </main>
         )}
       </div>

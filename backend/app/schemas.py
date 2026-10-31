@@ -36,22 +36,6 @@ class LoginRequest(BaseModel):
     email: EmailStr
     password: str
 
-class TokenResponse(BaseModel):
-    access_token: str
-    token_type: str = "bearer"
-    role: str
-    user_id: str
-    email: str
-    full_name: str
-    customer_id: Optional[str] = None
-
-class ForgotPasswordRequest(BaseModel):
-    email: EmailStr
-
-class ResetPasswordRequest(BaseModel):
-    token: str
-    new_password: str
-
 class UserResponse(BaseModel):
     id: str
     email: str
@@ -63,6 +47,23 @@ class UserResponse(BaseModel):
     customer_id: Optional[str] = None
 
     model_config = ConfigDict(from_attributes=True)
+
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    role: str
+    user_id: str
+    email: str
+    full_name: str
+    customer_id: Optional[str] = None
+    user: Optional[UserResponse] = None
+
+class ForgotPasswordRequest(BaseModel):
+    email: EmailStr
+
+class ResetPasswordRequest(BaseModel):
+    token: str
+    new_password: str
 
 
 # Customer Schemas
