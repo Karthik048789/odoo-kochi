@@ -24,6 +24,7 @@ export function App() {
   const [currentTab, setCurrentTab] = useState<string>('dashboard');
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
+  const [loginModalIsRegister, setLoginModalIsRegister] = useState<boolean>(false);
   const [activeInvoiceForPay, setActiveInvoiceForPay] = useState<Invoice | null>(null);
 
   // Toast notification state
@@ -131,7 +132,14 @@ export function App() {
         user={user}
         darkMode={darkMode}
         onToggleDarkMode={toggleDarkMode}
-        onOpenLogin={() => setIsLoginModalOpen(true)}
+        onOpenLogin={() => {
+          setLoginModalIsRegister(false);
+          setIsLoginModalOpen(true);
+        }}
+        onOpenRegister={() => {
+          setLoginModalIsRegister(true);
+          setIsLoginModalOpen(true);
+        }}
         onLogout={handleLogout}
       />
 
@@ -213,7 +221,10 @@ export function App() {
                   checkSession();
                 }
               }}
-              onOpenLoginModal={() => setIsLoginModalOpen(true)}
+              onOpenLoginModal={(isRegister = false) => {
+                setLoginModalIsRegister(isRegister);
+                setIsLoginModalOpen(true);
+              }}
               onNotify={notify}
             />
           </main>
@@ -223,6 +234,7 @@ export function App() {
       {/* Login & Registration Modal */}
       <LoginModal
         isOpen={isLoginModalOpen}
+        initialIsRegister={loginModalIsRegister}
         onClose={() => setIsLoginModalOpen(false)}
         onLoginSuccess={(data) => {
           localStorage.setItem('suber_token', data.access_token);

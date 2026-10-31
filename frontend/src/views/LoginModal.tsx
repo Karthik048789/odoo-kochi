@@ -8,6 +8,7 @@ interface LoginModalProps {
   onClose: () => void;
   onLoginSuccess: (tokenData: any) => void;
   onNotify: (msg: string, type?: 'success' | 'error') => void;
+  initialIsRegister?: boolean;
 }
 
 export const LoginModal: React.FC<LoginModalProps> = ({
@@ -15,10 +16,17 @@ export const LoginModal: React.FC<LoginModalProps> = ({
   onClose,
   onLoginSuccess,
   onNotify,
+  initialIsRegister = false,
 }) => {
-  const [isRegister, setIsRegister] = useState(false);
+  const [isRegister, setIsRegister] = useState(initialIsRegister);
   const [showSeedRef, setShowSeedRef] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setIsRegister(initialIsRegister);
+    }
+  }, [isOpen, initialIsRegister]);
 
   const [loginForm, setLoginForm] = useState({
     email: '',
@@ -63,14 +71,31 @@ export const LoginModal: React.FC<LoginModalProps> = ({
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isRegisterPassValid) {
+      onNotify('Password must be strictly more than 8 characters (at least 9) and include uppercase, lowercase, number, and special character (!@#$%^&*).', 'error');
+      return;
+    }
     try {
       setLoading(true);
-      const data = await api.register(registerForm);
+      const payload = {
+        email: registerForm.email.toLowerCase().trim(),
+        password: registerForm.password,
+        first_name: registerForm.first_name.trim(),
+        last_name: registerForm.last_name.trim(),
+        company_name: registerForm.company_name.trim(),
+        phone_number: registerForm.phone_number.trim(),
+        tax_identifier: registerForm.tax_identifier.trim() || undefined,
+        billing_address: registerForm.billing_address.trim(),
+        city: registerForm.city.trim(),
+        postal_code: registerForm.postal_code.trim(),
+        country: 'India',
+      };
+      const data = await api.register(payload);
       onLoginSuccess(data);
-      onNotify('Customer account created successfully! Signed in.', 'success');
+      onNotify('Enterprise customer account created successfully! Signed in.', 'success');
       onClose();
     } catch (err: any) {
-      onNotify(err.message, 'error');
+      onNotify(err.message || 'Registration failed.', 'error');
     } finally {
       setLoading(false);
     }
@@ -84,6 +109,32 @@ export const LoginModal: React.FC<LoginModalProps> = ({
       maxWidth="max-w-xl"
     >
       <div className="space-y-4">
+        {/* Prominent Mode Tabs */}
+        <div className="flex border-b border-slate-200 dark:border-slate-800 -mt-2">
+          <button
+            type="button"
+            onClick={() => setIsRegister(false)}
+            className={`flex-1 pb-3 text-xs font-bold border-b-2 transition-all ${
+              !isRegister
+                ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400'
+                : 'border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
+            }`}
+          >
+            Sign In to Workspace
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsRegister(true)}
+            className={`flex-1 pb-3 text-xs font-bold border-b-2 transition-all ${
+              isRegister
+                ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400'
+                : 'border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
+            }`}
+          >
+            Register Enterprise Client
+          </button>
+        </div>
+
         {isRegister ? (
           <form onSubmit={handleRegister} className="space-y-3 text-xs">
             <div className="grid grid-cols-2 gap-3">
@@ -234,7 +285,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
 
             <button
               type="submit"
-              disabled={!isRegisterPassValid || loading}
+              disabled={loading}
               className="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold transition-all disabled:opacity-50 mt-2 shadow-md shadow-indigo-600/20"
             >
               {loading ? 'Creating Account...' : 'Complete Customer Registration'}

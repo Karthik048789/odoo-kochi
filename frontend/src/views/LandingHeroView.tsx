@@ -8,7 +8,7 @@ import { User } from '../types';
 
 interface LandingHeroViewProps {
   onLoginSuccess: (token: string, user: User) => void;
-  onOpenLoginModal: () => void;
+  onOpenLoginModal: (isRegister?: boolean) => void;
   onNotify: (msg: string, type?: 'success' | 'error') => void;
 }
 
@@ -226,10 +226,16 @@ export const LandingHeroView: React.FC<LandingHeroViewProps> = ({
         </div>
         <div className="flex items-center space-x-2">
           <button
-            onClick={onOpenLoginModal}
+            onClick={() => onOpenLoginModal(false)}
             className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold transition-colors"
           >
-            Manual Sign In / Register
+            Sign In
+          </button>
+          <button
+            onClick={() => onOpenLoginModal(true)}
+            className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-md shadow-indigo-600/20 transition-all"
+          >
+            Register Enterprise Client
           </button>
         </div>
       </div>

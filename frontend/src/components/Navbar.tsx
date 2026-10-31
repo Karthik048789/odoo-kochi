@@ -7,6 +7,7 @@ interface NavbarProps {
   darkMode: boolean;
   onToggleDarkMode: () => void;
   onOpenLogin: () => void;
+  onOpenRegister?: () => void;
   onLogout: () => void;
 }
 
@@ -15,6 +16,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   darkMode,
   onToggleDarkMode,
   onOpenLogin,
+  onOpenRegister,
   onLogout,
 }) => {
   return (
@@ -100,10 +102,16 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center space-x-2">
             <button
               onClick={onOpenLogin}
+              className="px-3 py-1.5 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-semibold transition-all"
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => onOpenRegister ? onOpenRegister() : onOpenLogin()}
               className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-md shadow-indigo-600/20 transition-all"
             >
-              <LogIn className="w-3.5 h-3.5" />
-              <span>Sign In</span>
+              <UserPlus className="w-3.5 h-3.5" />
+              <span>Register</span>
             </button>
           </div>
         )}

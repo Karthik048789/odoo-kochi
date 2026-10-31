@@ -22,7 +22,16 @@ async function handleResponse<T>(res: Response): Promise<T> {
     let errorDetail = 'An unexpected error occurred';
     try {
       const errJson = await res.json();
-      errorDetail = errJson.detail || errorDetail;
+      if (Array.isArray(errJson.detail)) {
+        errorDetail = errJson.detail.map((d: any) => {
+          const field = d.loc?.slice(-1)[0] || 'field';
+          return `${field}: ${d.msg}`;
+        }).join(' | ');
+      } else if (typeof errJson.detail === 'string') {
+        errorDetail = errJson.detail;
+      } else if (errJson.message) {
+        errorDetail = errJson.message;
+      }
     } catch {
       errorDetail = res.statusText || errorDetail;
     }
